@@ -10,12 +10,12 @@ class GeminiService {
 
   late final model = GenerativeModel(
     model: 'gemini-1.5-flash-latest',
-    apiKey: dotenv.env['GEMINI_API_KEY'] ?? '',
-  );
-
-  late final visionModel = GenerativeModel(
-    model: 'gemini-1.5-flash-latest',
-    apiKey: dotenv.env['GEMINI_API_KEY'] ?? '',
+    apiKey: dotenv.env['GEMINI_API_KEY']!,
+    safetySettings: [
+      SafetySetting(HarmCategory.harassment, HarmBlockThreshold.high),
+      SafetySetting(HarmCategory.hateSpeech, HarmBlockThreshold.high),
+      SafetySetting(HarmCategory.dangerousContent, HarmBlockThreshold.high),
+    ],
   );
 
   Future<String> generateRecipe(String ingredients) async {
@@ -45,11 +45,11 @@ Only include visible ingredients, and be specific but concise.''';
       final content = [
         Content.multi([
           TextPart(prompt),
-          DataPart('image/jpeg', imageData),
+          DataPart('image/', imageData),
         ])
       ];
 
-      final response = await visionModel.generateContent(content);
+      final response = await model.generateContent(content);
       return response.text ?? 'No ingredients identified';
     } catch (e) {
       return 'Error analyzing image: $e';
