@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
+import 'package:image_picker/image_picker.dart';
 import 'package:gemini_flutter/services/gemini_service.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       });
 
       final ingredients = await _geminiService.identifyIngredientsFromImage(_selectedImage!);
-      
+
       setState(() {
         _isLoading = false;
         _ingredientsController.text = ingredients;
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       // Analyze image and get ingredients
       final ingredients = await _geminiService.identifyIngredientsFromImage(_selectedImage!);
-      
+
       setState(() {
         _isLoading = false;
         _ingredientsController.text = ingredients;
@@ -213,4 +213,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-} 
+}
